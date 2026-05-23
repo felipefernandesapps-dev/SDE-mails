@@ -1,0 +1,52 @@
+{
+  "name": "email-dispatcher-system",
+  "version": "1.0.0",
+  "description": "Sistema de disparo automático de e-mails personalizados",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "install:all": "pnpm install && cd backend && pnpm install && cd ../frontend && pnpm install",
+    "dev:backend": "cd backend && pnpm dev",
+    "dev:frontend": "cd frontend && pnpm dev",
+    "build:backend": "cd backend && pnpm build",
+    "build:frontend": "cd frontend && pnpm build",
+    "start:backend": "cd backend && pnpm start",
+    "start:frontend": "cd frontend && pnpm start",
+    "db:migrate": "cd backend && pnpm prisma:migrate",
+    "db:seed": "cd backend && pnpm prisma:seed",
+    "db:studio": "cd backend && pnpm prisma:studio",
+    "docker:up": "docker-compose up -d",
+    "docker:down": "docker-compose down",
+    "docker:logs": "docker-compose logs -f"
+  },
+  "dependencies": {
+    "@ant-design/icons": "^6.2.3",
+    "antd": "^6.4.3",
+    "axios": "^1.16.1",
+    "dayjs": "^1.11.20",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-router-dom": "^7.15.1"
+  },
+  "devDependencies": {
+    "@types/node": "^25.9.1",
+    "@types/react": "^18.3.18",
+    "@types/react-dom": "^18.3.5",
+    "@vitejs/plugin-react": "^4.3.4",
+    "typescript": "^5.7.3",
+    "vite": "^6.0.11"
+  },
+  "keywords": [
+    "email",
+    "smtp",
+    "automation",
+    "nodejs",
+    "nextjs",
+    "postgresql"
+  ],
+  "author": "",
+  "license": "MIT"
+}

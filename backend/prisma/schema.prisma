@@ -1,0 +1,88 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Destinatario {
+  id              Int       @id @default(autoincrement())
+  nome            String
+  email           String    @unique
+  dataAniversario DateTime  @map("data_aniversario") @db.Date
+  profissao       String
+  ativo           Boolean   @default(true)
+  createdAt       DateTime  @default(now()) @map("created_at")
+  updatedAt       DateTime  @updatedAt @map("updated_at")
+
+  historicos HistoricoDisparo[]
+
+  @@map("destinatarios")
+}
+
+model Template {
+  id        Int      @id @default(autoincrement())
+  tipo      TipoTemplate
+  assunto   String
+  corpo     String   @db.Text
+  ativo     Boolean  @default(true)
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  historicos HistoricoDisparo[]
+
+  @@map("templates")
+}
+
+enum TipoTemplate {
+  aniversario
+  profissao
+}
+
+model ConfiguracaoSmtp {
+  id                      Int      @id @default(autoincrement())
+  servidor                String
+  porta                   Int      @default(587)
+  usuario                 String
+  senha                   String
+  horarioDisparoAniversario String @map("horario_disparo_aniversario") @default("09:00")
+  horarioDisparoProfissao   String @map("horario_disparo_profissao") @default("10:00")
+  updatedAt               DateTime @updatedAt @map("updated_at")
+
+  @@map("configuracao_smtp")
+}
+
+model HistoricoDisparo {
+  id              Int      @id @default(autoincrement())
+  destinatarioId  Int      @map("destinatario_id")
+  templateId      Int      @map("template_id")
+  dataDisparo     DateTime @map("data_disparo") @default(now())
+  status          StatusDisparo
+  erroMensagem    String?  @map("erro_mensagem") @db.Text
+  createdAt       DateTime @default(now()) @map("created_at")
+
+  destinatario Destinatario @relation(fields: [destinatarioId], references: [id], onDelete: Cascade)
+  template     Template     @relation(fields: [templateId], references: [id])
+
+  @@map("historico_disparos")
+}
+
+enum StatusDisparo {
+  enviado
+  falha
+  pendente
+}
+
+model DataComemorativa {
+  id              Int      @id @default(autoincrement())
+  profissao       String
+  dataComemorativa String  @map("data_comemorativa") // Formato: MM-DD
+  descricao       String
+  ativo           Boolean  @default(true)
+  createdAt       DateTime @default(now()) @map("created_at")
+  updatedAt       DateTime @updatedAt @map("updated_at")
+
+  @@map("datas_comemorativas")
+}
